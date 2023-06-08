@@ -14,12 +14,10 @@ parts:
       - -DTO_JSON_BINARY=false
       - -DPYTHON_BINDINGS=true
       - -DHTML_SUPPORT=true
-    override-pull: |
-      craftctl default
-      pip install --prefix=$CRAFT_PART_INSTALL/usr pybind11==2.10.3
     build-packages:
       - libpugixml-dev
       - pybind11-dev
+      - python3-pybind11
       - libtidy-dev
       - libfmt-dev
   gfeeds:
