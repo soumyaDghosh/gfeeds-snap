@@ -17,7 +17,7 @@ parts:
     build-environment:
       - PYTHONPATH: $CRAFT_PART_INSTALL/usr/lib/python3.10/dist-packages:$PYTHONPATH
     override-pull: |
-      crafctl default
+      craftctl default
       pip install --prefix=$CRAFT_PART_INSTALL/usr pybind11==2.10.3
     build-packages:
       - libpugixml-dev
