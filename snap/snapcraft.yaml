@@ -20,7 +20,7 @@ parts:
     build-packages:
       - libpugixml-dev
       - pybind11-dev
-      - tidy
+      - libtidy-dev
       - libfmt-dev
   gfeeds:
     after: [syndom]
