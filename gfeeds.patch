@@ -1,0 +1,23 @@
+diff -Naur a/data/org.gabmus.gfeeds.appdata.xml.in b/data/org.gabmus.gfeeds.appdata.xml.in
+--- a/data/org.gabmus.gfeeds.appdata.xml.in	2023-06-08 21:47:22.950572216 +0530
++++ b/data/org.gabmus.gfeeds.appdata.xml.in	2023-06-08 21:48:59.881199595 +0530
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <component type="desktop-application">
+     <id>org.gabmus.gfeeds</id>
++    <icon type="stock">snap.gfeeds.org.gabmus.gfeeds</icon>
+     <name>Feeds</name>
+     <developer_name translatable="no">Gabriele Musco</developer_name>
+     <summary>News reader for GNOME</summary>
+diff -Naur a/data/org.gabmus.gfeeds.desktop.in b/data/org.gabmus.gfeeds.desktop.in
+--- a/data/org.gabmus.gfeeds.desktop.in	2023-06-08 21:46:45.497524720 +0530
++++ b/data/org.gabmus.gfeeds.desktop.in	2023-06-08 21:49:16.049628224 +0530
+@@ -6,7 +6,7 @@
+ Comment=News reader for GNOME
+ Categories=Network;Feed;GTK;GNOME;
+ # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+-Icon=@appid@
++Icon=snap.gfeeds.@appid@
+ Exec=@bindir@/@projectname@ %u
+ Terminal=false
+ StartupNotify=true
