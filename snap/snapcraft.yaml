@@ -40,12 +40,13 @@ parts:
       - PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/bin:$PATH
       - XDG_DATA_DIRS: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/share:$XDG_DATA_DIRS
       - LD_LIBRARY_PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/webkitgtk-6.0:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/girepository-1.0:$LD_LIBRARY_PATH
+      - PYTHONPATH: $CRAFT_PART_INSTALL/usr/local/lib/python3.10/dist-packages:$PYTHONPATH
     override-pull: |
       craftctl default
       patch -p1 < $CRAFT_PROJECT_DIR/gfeeds.patch
+      pip install --prefix=$CRAFT_PART_INSTALL/usr attrs beautifulsoup4 certifi chardet charset-normalizer colorama cssselect exceptiongroup humanize idna iniconfig lxml packaging pillow pluggy pygments pytest python-dateutil python-magic pytz readability-lxml requests six soupsieve tomli urllib3 Pygments pybind11
     override-build: |
       craftctl default
-      pip install --prefix=$CRAFT_PART_INSTALL/usr attrs beautifulsoup4 certifi chardet charset-normalizer colorama cssselect exceptiongroup humanize idna iniconfig lxml packaging pillow pluggy pygments pytest python-dateutil python-magic pytz readability-lxml requests six soupsieve tomli urllib3 Pygments 
       sed -e '1c#!/usr/bin/python3' -i $CRAFT_PART_INSTALL/usr/local/bin/*
       mkdir -p $CRAFT_PART_INSTALL/meta/gui
       cp -r $CRAFT_PART_INSTALL/snap/gfeeds/current/usr/share/icons $CRAFT_PART_INSTALL/meta/gui/
