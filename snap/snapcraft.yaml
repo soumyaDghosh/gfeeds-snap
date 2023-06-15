@@ -62,6 +62,7 @@ parts:
       bin: usr/bin
       lib/python3.10/site-packages: usr/lib/python3.10/dist-packages    
   syndom:
+    after: [ Pillow ]
     source: https://gitlab.com/gabmus/syndication-domination.git
     source-commit: "75920321062d682437f3fb0319dad227d8b18f6c"
     plugin: meson
@@ -77,7 +78,7 @@ parts:
       - libtidy-dev
       - libfmt-dev
   gfeeds:
-    after: [syndom]
+    after: [ syndom ]
     # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.gnome.org/World/gfeeds.git
