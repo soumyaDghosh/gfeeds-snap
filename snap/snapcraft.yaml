@@ -5,6 +5,62 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 
 parts:
+  Pillow:
+    source: https://github.com/python-pillow/Pillow.git
+    source-tag: '9.4.0'
+    plugin: python
+    build-environment:
+      - PATH: ${CRAFT_PART_INSTALL}/bin:${PATH}
+      - PYTHONPATH: ""
+    python-packages:
+      - attrs==22.2.0
+      - beautifulsoup4==4.12.0
+      - certifi==2022.12.7
+      - chardet==5.1.0
+      - charset-normalizer==3.1.0
+      - colorama==0.4.6
+      - cssselect==1.2.0
+      - exceptiongroup==1.1.1
+      - humanize==4.6.0
+      - idna==3.4
+      - iniconfig==2.0.0
+      - lxml==4.9.2
+      - packaging==23.0
+      - pluggy==1.0.0
+      - Pygments==2.14.0
+      - pytest==7.2.2
+      - python-dateutil==2.8.2
+      - python_magic==0.4.27
+      - pytz==2022.7.1
+      - readability_lxml==0.8.1
+      - requests==2.28.2
+      - six==1.16.0
+      - soupsieve==2.4
+      - tomli==2.0.1
+      - urllib3==1.26.15
+      - pybind11==2.10.3      
+    prime:
+      - -usr/bin/activate
+      - -usr/bin/activate.csh
+      - -usr/bin/activate.fish
+      - -usr/bin/Activate.ps1
+      - -usr/bin/python
+      - -usr/bin/python3
+      - -usr/bin/python3.10
+      - -usr/bin/pip
+      - -usr/bin/pip3
+      - -usr/bin/pip3.10
+      - -usr/bin/wheel
+      - -usr/lib/python3.10/dist-packages/pip*
+      - -usr/lib/python3.10/dist-packages/setuptools*
+      - -pyvenv.cfg
+      - -lib
+      - -lib64
+      - -include
+      - -share 
+    organize:
+      bin: usr/bin
+      lib/python3.10/site-packages: usr/lib/python3.10/dist-packages    
   syndom:
     source: https://gitlab.com/gabmus/syndication-domination.git
     source-commit: "75920321062d682437f3fb0319dad227d8b18f6c"
@@ -15,14 +71,9 @@ parts:
       - -DPYTHON_BINDINGS=true
       - -DHTML_SUPPORT=true
     build-environment:
-      - PYTHONPATH: $CRAFT_PART_INSTALL/usr/lib/python3.10/dist-packages:$PYTHONPATH
-    override-pull: |
-      craftctl default
-      pip install --prefix=$CRAFT_PART_INSTALL/usr pybind11==2.10.3
+      - PYTHONPATH: $CRAFT_STAGE/usr/lib/python3.10/dist-packages:$PYTHONPATH
     build-packages:
       - libpugixml-dev
-      - pybind11-dev
-      - python3-pybind11
       - libtidy-dev
       - libfmt-dev
   gfeeds:
@@ -43,8 +94,7 @@ parts:
       - PYTHONPATH: $CRAFT_PART_INSTALL/usr/local/lib/python3.10/dist-packages:$PYTHONPATH
     override-pull: |
       craftctl default
-      patch -p1 < $CRAFT_PROJECT_DIR/gfeeds.patch
-      pip install --prefix=$CRAFT_PART_INSTALL/usr attrs beautifulsoup4 certifi chardet charset-normalizer colorama cssselect exceptiongroup humanize idna iniconfig lxml packaging pillow pluggy pygments pytest python-dateutil python-magic pytz readability-lxml requests six soupsieve tomli urllib3 Pygments pybind11
+      patch -p1 < $CRAFT_PROJECT_DIR/snap/gfeeds.patch
     override-build: |
       craftctl default
       sed -e '1c#!/usr/bin/python3' -i $CRAFT_PART_INSTALL/usr/local/bin/*
