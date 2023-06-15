@@ -73,7 +73,7 @@ parts:
       - -DHTML_SUPPORT=true
     build-environment:
       - PYTHONPATH: $CRAFT_STAGE/usr/lib/python3.10/dist-packages:$PYTHONPATH
-      - CPPFLAGS: -I/$CRAFT_STAGE/usr/include/tidy
+      - CPPFLAGS: -I/$CRAFT_PART_INSTALL/usr/include/tidy
     build-packages:
       - libpugixml-dev
       - libtidy-dev
