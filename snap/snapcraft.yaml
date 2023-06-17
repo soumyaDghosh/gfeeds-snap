@@ -38,7 +38,7 @@ parts:
       - soupsieve==2.4
       - tomli==2.0.1
       - urllib3==1.26.15
-      - pybind11==2.10.3      
+      - pybind11==2.10.3
     prime:
       - -usr/bin/activate
       - -usr/bin/activate.csh
@@ -57,10 +57,10 @@ parts:
       - -lib
       - -lib64
       - -include
-      - -share 
+      - -share
     organize:
       bin: usr/bin
-      lib/python3.10/site-packages: usr/lib/python3.10/dist-packages    
+      lib/python3.10/site-packages: usr/lib/python3.10/dist-packages
   syndom:
     after: [ Pillow ]
     source: https://gitlab.com/gabmus/syndication-domination.git
@@ -73,7 +73,7 @@ parts:
       - -DHTML_SUPPORT=true
     build-environment:
       - PYTHONPATH: $CRAFT_STAGE/usr/lib/python3.10/dist-packages:$PYTHONPATH
-      - CPPFLAGS: -I/$CRAFT_PART_INSTALL/usr/include/tidy
+      - CPPFLAGS: -I/usr/include/tidy
     build-packages:
       - libpugixml-dev
       - libtidy-dev
@@ -129,7 +129,7 @@ slots:
     interface: dbus
     bus: session
     name: org.gabmus.gfeeds
-    
+
 apps:
   gfeeds:
     command: usr/bin/gfeeds
@@ -137,4 +137,3 @@ apps:
     common-id: org.gabmus.gfeeds
     environment:
       LD_LIBRARY_PATH: $SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkitgtk-6.0:$LD_LIBRARY_PATH
-    
