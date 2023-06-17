@@ -4,6 +4,10 @@ adopt-info: gfeeds
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 
+layout:
+  /usr/lib/$CRAFT_ARCH_TRIPLET/webkitgtk-6.0:
+    bind: $SNAP/webkitgtk-platform/usr/lib/$CRAFT_ARCH_TRIPLET/webkitgtk-6.0
+
 parts:
   Pillow:
     source: https://github.com/python-pillow/Pillow.git
@@ -117,6 +121,20 @@ parts:
     prime:
       - -snap/gfeeds
     parse-info: [usr/share/metainfo/org.gabmus.gfeeds.appdata.xml]
+
+  deps:
+    plugin: nil
+    stage-packages:
+      - libtidy5deb1
+      - libpugixml1v5
+      - libfmt8
+    prime:
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libtidy.so.5deb1
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libtidy.so.5deb1.6.0
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libpugixml.so.1
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libpugixml.so.1.12
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libfmt.so.8
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libfmt.so.8.1.1
 
 plugs:
   webkitgtk-6-gnome-2204:
