@@ -72,7 +72,7 @@ parts:
       - -DPYTHON_BINDINGS=true
       - -DHTML_SUPPORT=true
     build-environment:
-      - PYTHONPATH: $CRAFT_STAGE/usr/lib/python3.10/dist-packages:$PYTHONPATH
+      - PYTHONPATH: $CRAFT_STAGE/usr/lib/python3/dist-packages:$PYTHONPATH
       - CPPFLAGS: -I/usr/include/tidy
     build-packages:
       - libpugixml-dev
