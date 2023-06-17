@@ -155,3 +155,4 @@ apps:
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
       LD_LIBRARY_PATH: $SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkitgtk-6.0:$LD_LIBRARY_PATH
+      GI_TYPELIB_PATH: $SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/girepository-1.0:$GI_TYPELIB_PATH
