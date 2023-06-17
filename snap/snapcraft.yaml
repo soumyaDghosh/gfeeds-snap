@@ -103,7 +103,7 @@ parts:
       for i in `find $CRAFT_PART_INSTALL/meta/gui/icons -name "*.svg" -o -name "*.png"`; do
         mv $i "`dirname $i`/snap.$CRAFT_PROJECT_NAME.`basename $i`"
       done
-      sed -e '1c#!/usr/bin/env python3' -i "${CRAFT_PART_INSTALL}/snap/gfeeds/current/usr/bin/gfeeds
+      sed -e '1c#!/usr/bin/env python3' -i "${CRAFT_PART_INSTALL}/snap/gfeeds/current/usr/bin/gfeeds"
     build-packages:
       - blueprint-compiler
     build-snaps:
