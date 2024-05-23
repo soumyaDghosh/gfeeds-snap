@@ -1,21 +1,18 @@
-name: gfeeds # you probably want to 'snapcraft register <name>'
-base: core22 # the base snap is the execution environment for this snap
+name: gfeeds
+base: core22
 adopt-info: gfeeds
-grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: strict # use 'strict' once you have the right plugs and slots
+grade: stable
+confinement: strict
+compression: lzo
 
 layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET/webkitgtk-6.0:
-    bind: $SNAP/webkitgtk-platform/usr/lib/$CRAFT_ARCH_TRIPLET/webkitgtk-6.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/webkitgtk-6.0:
+    bind: $SNAP/webkitgtk-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/webkitgtk-6.0
 
 parts:
-  Pillow:
-    source: https://github.com/python-pillow/Pillow.git
-    source-tag: '9.4.0'
+  python-deps:
+    source: .
     plugin: python
-    build-environment:
-      - PATH: ${CRAFT_PART_INSTALL}/bin:${PATH}
-      - PYTHONPATH: ""
     python-packages:
       - attrs==22.2.0
       - beautifulsoup4==4.12.0
@@ -30,6 +27,7 @@ parts:
       - iniconfig==2.0.0
       - lxml==4.9.2
       - packaging==23.0
+      - Pillow==9.4.0
       - pluggy==1.0.0
       - Pygments==2.14.0
       - pytest==7.2.2
@@ -65,8 +63,9 @@ parts:
     organize:
       bin: usr/bin
       lib/python3.10/site-packages: usr/lib/python3/dist-packages
+
   syndom:
-    after: [ Pillow ]
+    after: [ python-deps ]
     source: https://gitlab.com/gabmus/syndication-domination.git
     source-commit: "75920321062d682437f3fb0319dad227d8b18f6c"
     plugin: meson
@@ -82,31 +81,24 @@ parts:
       - libpugixml-dev
       - libtidy-dev
       - libfmt-dev
+
   gfeeds:
     after: [ syndom ]
     # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.gnome.org/World/gfeeds.git
     source-tag: '2.2.0'
-    source-depth: '1'
+    source-depth: 1
     build-environment:
       - RUSTUP_HOME: $CRAFT_STAGE/usr/share/rust
       - CARGO_HOME: $CRAFT_STAGE/usr/share/rust
       - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
-      - PKG_CONFIG_PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig:$PKG_CONFIG_PATH
+      - PKG_CONFIG_PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:$PKG_CONFIG_PATH
       - PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/bin:$PATH
       - XDG_DATA_DIRS: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/share:$XDG_DATA_DIRS
-      - LD_LIBRARY_PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/webkitgtk-6.0:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/girepository-1.0:$LD_LIBRARY_PATH
-    override-pull: |
-      craftctl default
-      patch -p1 < $CRAFT_PROJECT_DIR/snap/gfeeds.patch
+      - LD_LIBRARY_PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/webkitgtk-6.0:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/girepository-1.0:$LD_LIBRARY_PATH
     override-build: |
       craftctl default
-      mkdir -p $CRAFT_PART_INSTALL/meta/gui
-      cp -r $CRAFT_PART_INSTALL/snap/gfeeds/current/usr/share/icons $CRAFT_PART_INSTALL/meta/gui/
-      for i in `find $CRAFT_PART_INSTALL/meta/gui/icons -name "*.svg" -o -name "*.png"`; do
-        mv $i "`dirname $i`/snap.$CRAFT_PROJECT_NAME.`basename $i`"
-      done
       sed -e '1c#!/usr/bin/env python3' -i "${CRAFT_PART_INSTALL}/snap/gfeeds/current/usr/bin/gfeeds"
     build-packages:
       - blueprint-compiler
@@ -123,18 +115,28 @@ parts:
     parse-info: [usr/share/metainfo/org.gabmus.gfeeds.appdata.xml]
 
   deps:
+    after: [ gfeeds ]
     plugin: nil
     stage-packages:
       - libtidy5deb1
       - libpugixml1v5
       - libfmt8
+      - libmagic1
     prime:
-      - usr/lib/$CRAFT_ARCH_TRIPLET/libtidy.so.5deb1
-      - usr/lib/$CRAFT_ARCH_TRIPLET/libtidy.so.5deb1.6.0
-      - usr/lib/$CRAFT_ARCH_TRIPLET/libpugixml.so.1
-      - usr/lib/$CRAFT_ARCH_TRIPLET/libpugixml.so.1.12
-      - usr/lib/$CRAFT_ARCH_TRIPLET/libfmt.so.8
-      - usr/lib/$CRAFT_ARCH_TRIPLET/libfmt.so.8.1.1
+      - etc/magic
+      - etc/magic.mime
+      - usr/lib/*/libtidy.so.5deb1
+      - usr/lib/*/libtidy.so.5deb1.6.0
+      - usr/lib/*/libpugixml.so.1
+      - usr/lib/*/libpugixml.so.1.12
+      - usr/lib/*/libfmt.so.8
+      - usr/lib/*/libfmt.so.8.1.1
+      - usr/lib/*/libmagic.so.1
+      - usr/lib/*/libmagic.so.1.0.0
+      - usr/lib/file/magic.mgc
+      - usr/share/file/magic.mgc
+      - usr/share/misc/magic.mgc
+      - usr/share/misc/magic
 
 plugs:
   webkitgtk-6-gnome-2204:
@@ -154,5 +156,11 @@ apps:
     common-id: org.gabmus.gfeeds
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
-      LD_LIBRARY_PATH: $SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkitgtk-6.0:$LD_LIBRARY_PATH
-      GI_TYPELIB_PATH: $SNAP/webkitgtk-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/girepository-1.0:$GI_TYPELIB_PATH
+      LD_LIBRARY_PATH: $SNAP/webkitgtk-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/webkitgtk-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/webkitgtk-6.0:$LD_LIBRARY_PATH
+      GI_TYPELIB_PATH: $SNAP/webkitgtk-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/girepository-1.0:$GI_TYPELIB_PATH
+      GDK_DEBUG: portals
+      MAGIC: $SNAP/usr/share/misc/magic
+    plugs:
+      - network
+      - network-status
+      - unity7
