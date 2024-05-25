@@ -164,3 +164,4 @@ apps:
       - network
       - network-status
       - unity7
+      - system-observe
