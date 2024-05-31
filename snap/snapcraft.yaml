@@ -68,6 +68,7 @@ parts:
     after: [ python-deps ]
     source: https://gitlab.com/gabmus/syndication-domination.git
     source-commit: "75920321062d682437f3fb0319dad227d8b18f6c"
+    source-depth: 1
     plugin: meson
     meson-parameters:
       - --prefix=/usr
