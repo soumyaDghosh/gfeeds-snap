@@ -69,6 +69,9 @@ parts:
     source: https://gitlab.com/gabmus/syndication-domination.git
     source-commit: "75920321062d682437f3fb0319dad227d8b18f6c"
     source-depth: 1
+# ext:updatesnap
+#   version-format:
+#     ignore: true
     plugin: meson
     meson-parameters:
       - --prefix=/usr
@@ -85,7 +88,6 @@ parts:
 
   gfeeds:
     after: [ syndom ]
-    # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.gnome.org/World/gfeeds.git
     source-tag: '2.2.0'
