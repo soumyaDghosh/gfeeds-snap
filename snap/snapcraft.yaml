@@ -13,6 +13,10 @@ parts:
   python-deps:
     source: .
     plugin: python
+    build-packages:
+      - libxml2-dev
+      - libxslt1-dev
+      - libjpeg-turbo8-dev
     python-packages:
       - attrs==22.2.0
       - beautifulsoup4==4.12.0
@@ -25,7 +29,7 @@ parts:
       - humanize==4.6.0
       - idna==3.4
       - iniconfig==2.0.0
-      - lxml==4.9.2
+      - lxml[html_clean]==6.0.2
       - packaging==23.0
       - Pillow==9.4.0
       - pluggy==1.0.0
@@ -62,7 +66,7 @@ parts:
       - -share
     organize:
       bin: usr/bin
-      lib/python3.10/site-packages: usr/lib/python3/dist-packages
+      lib/python3.12/site-packages: usr/lib/python3/dist-packages
 
   syndom:
     after: [ python-deps ]
@@ -86,8 +90,17 @@ parts:
       - libtidy-dev
       - libfmt-dev
 
+  blueprint-compiler:
+    source: https://gitlab.gnome.org/jwestman/blueprint-compiler.git
+    source-tag: "v0.6.0"
+    source-depth: 1
+    plugin: meson
+    meson-parameters:
+      - --prefix=/usr
+    override-prime: ""
+
   gfeeds:
-    after: [ syndom ]
+    after: [ syndom, blueprint-compiler ]
     plugin: meson
     source: https://gitlab.gnome.org/World/gfeeds.git
     source-tag: '2.2.0'
@@ -100,11 +113,11 @@ parts:
       - PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/bin:$PATH
       - XDG_DATA_DIRS: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/share:$XDG_DATA_DIRS
       - LD_LIBRARY_PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/webkitgtk-6.0:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/girepository-1.0:$LD_LIBRARY_PATH
+      - PYTHONPATH: $CRAFT_STAGE/usr/lib/python3/dist-packages:${PYTHONPATH}
+      - GI_TYPELIB_PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/girepository-1.0:$GI_TYPELIB_PATH
     override-build: |
       craftctl default
       sed -e '1c#!/usr/bin/env python3' -i "${CRAFT_PART_INSTALL}/snap/gfeeds/current/usr/bin/gfeeds"
-    build-packages:
-      - blueprint-compiler
     build-snaps:
       - webkitgtk-6-gnome-2404-sdk/latest/stable
     meson-parameters:
@@ -124,21 +137,17 @@ parts:
       - libtidy5deb1
       - libpugixml1v5
       - libfmt9
-      - libmagic1
+      - libmagic1t64
     prime:
-      - etc/magic
-      - etc/magic.mime
       - usr/lib/*/libtidy.so.5deb1*
       - usr/lib/*/libpugixml.so*
       - usr/lib/*/libfmt.so*
       - usr/lib/*/libmagic.so*
       - usr/lib/file/magic.mgc
-      - usr/share/file/magic.mgc
-      - usr/share/misc/magic.mgc
-      - usr/share/misc/magic
+      - usr/share/*/magic*
 
 plugs:
-  webkitgtk-6-gnome-2204:
+  webkitgtk-6-gnome-2404:
     interface: content
     target: $SNAP/webkitgtk-platform
     default-provider: webkitgtk-6-gnome-2404
