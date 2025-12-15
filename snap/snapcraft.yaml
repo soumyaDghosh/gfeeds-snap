@@ -1,5 +1,5 @@
 name: gfeeds
-base: core22
+base: core24
 adopt-info: gfeeds
 grade: stable
 confinement: strict
@@ -96,17 +96,17 @@ parts:
       - RUSTUP_HOME: $CRAFT_STAGE/usr/share/rust
       - CARGO_HOME: $CRAFT_STAGE/usr/share/rust
       - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
-      - PKG_CONFIG_PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:$PKG_CONFIG_PATH
-      - PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/bin:$PATH
-      - XDG_DATA_DIRS: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/share:$XDG_DATA_DIRS
-      - LD_LIBRARY_PATH: /snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/webkitgtk-6.0:/snap/webkitgtk-6-gnome-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/girepository-1.0:$LD_LIBRARY_PATH
+      - PKG_CONFIG_PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:$PKG_CONFIG_PATH
+      - PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/bin:$PATH
+      - XDG_DATA_DIRS: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/share:$XDG_DATA_DIRS
+      - LD_LIBRARY_PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/webkitgtk-6.0:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/girepository-1.0:$LD_LIBRARY_PATH
     override-build: |
       craftctl default
       sed -e '1c#!/usr/bin/env python3' -i "${CRAFT_PART_INSTALL}/snap/gfeeds/current/usr/bin/gfeeds"
     build-packages:
       - blueprint-compiler
     build-snaps:
-      - webkitgtk-6-gnome-2204-sdk/latest/stable
+      - webkitgtk-6-gnome-2404-sdk/latest/stable
     meson-parameters:
       - --prefix=/snap/gfeeds/current/usr
       - --buildtype=release
@@ -128,14 +128,10 @@ parts:
     prime:
       - etc/magic
       - etc/magic.mime
-      - usr/lib/*/libtidy.so.5deb1
-      - usr/lib/*/libtidy.so.5deb1.6.0
-      - usr/lib/*/libpugixml.so.1
-      - usr/lib/*/libpugixml.so.1.12
-      - usr/lib/*/libfmt.so.8
-      - usr/lib/*/libfmt.so.8.1.1
-      - usr/lib/*/libmagic.so.1
-      - usr/lib/*/libmagic.so.1.0.0
+      - usr/lib/*/libtidy.so.5deb1*
+      - usr/lib/*/libpugixml.so*
+      - usr/lib/*/libfmt.so*
+      - usr/lib/*/libmagic.so*
       - usr/lib/file/magic.mgc
       - usr/share/file/magic.mgc
       - usr/share/misc/magic.mgc
@@ -145,7 +141,7 @@ plugs:
   webkitgtk-6-gnome-2204:
     interface: content
     target: $SNAP/webkitgtk-platform
-    default-provider: webkitgtk-6-gnome-2204
+    default-provider: webkitgtk-6-gnome-2404
 slots:
   gfeeds:
     interface: dbus
