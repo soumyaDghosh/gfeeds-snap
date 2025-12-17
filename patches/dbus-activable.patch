@@ -1,0 +1,13 @@
+diff --git a/data/org.gabmus.gfeeds.desktop.in b/data/org.gabmus.gfeeds.desktop.in
+index ad0cf66cdd8ee954d6dbc08f58f0453c236a80b4..abb6a604e9d0a7c4b1254cbf5674bca0c7ea0c13 100644
+--- a/data/org.gabmus.gfeeds.desktop.in
++++ b/data/org.gabmus.gfeeds.desktop.in
+@@ -10,6 +10,7 @@ Icon=@appid@
+ Exec=@bindir@/@projectname@ %u
+ Terminal=false
+ StartupNotify=true
++DBusActivatable=true
+ MimeType=application/xml;text/xml;text/x-opml;
+ # Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+ Keywords=rss;reader;feed;news;
+

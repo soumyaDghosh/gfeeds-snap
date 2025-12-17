@@ -90,20 +90,11 @@ parts:
       - libtidy-dev
       - libfmt-dev
 
-  blueprint-compiler:
-    source: https://gitlab.gnome.org/jwestman/blueprint-compiler.git
-    source-tag: "v0.6.0"
-    source-depth: 1
-    plugin: meson
-    meson-parameters:
-      - --prefix=/usr
-    override-prime: ""
-
   gfeeds:
-    after: [ syndom, blueprint-compiler ]
+    after: [ syndom ]
     plugin: meson
     source: https://gitlab.gnome.org/World/gfeeds.git
-    source-tag: '2.2.0'
+    source-commit: d099fda0c62e338080061683a154f711cc487b30
     source-depth: 1
     build-environment:
       - RUSTUP_HOME: $CRAFT_STAGE/usr/share/rust
@@ -115,10 +106,16 @@ parts:
       - LD_LIBRARY_PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/webkitgtk-6.0:/snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/girepository-1.0:$LD_LIBRARY_PATH
       - PYTHONPATH: $CRAFT_STAGE/usr/lib/python3/dist-packages:${PYTHONPATH}
       - GI_TYPELIB_PATH: /snap/webkitgtk-6-gnome-2404-sdk/current/usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/girepository-1.0:$GI_TYPELIB_PATH
+    override-pull: |
+      craftctl default
+      for p in $CRAFT_PROJECT_DIR/patches/*.patch; do
+        patch -p1 < $p
+      done
     override-build: |
       craftctl default
       sed -e '1c#!/usr/bin/env python3' -i "${CRAFT_PART_INSTALL}/snap/gfeeds/current/usr/bin/gfeeds"
     build-snaps:
+      - blueprint-compiler
       - webkitgtk-6-gnome-2404-sdk/latest/stable
     meson-parameters:
       - --prefix=/snap/gfeeds/current/usr

@@ -1,0 +1,21 @@
+diff --git a/gfeeds/app_window.py b/gfeeds/app_window.py
+index 286907b091e2100cd1759affa5eb71378245a348..0484087d427413c21562a4bee95511a80f97b6f4 100644
+--- a/gfeeds/app_window.py
++++ b/gfeeds/app_window.py
+@@ -3,7 +3,6 @@ from gfeeds.main_leaflet import MainLeaflet
+ from gfeeds.confManager import ConfManager
+ from gfeeds.feeds_manager import FeedsManager
+ from gfeeds.base_app import BaseWindow, AppShortcut
+-from datetime import datetime
+ 
+ 
+ class GFeedsAppWindow(BaseWindow):
+@@ -64,7 +63,7 @@ class GFeedsAppWindow(BaseWindow):
+         self.dark_mode = self.confman.nconf.dark_mode
+ 
+     def present(self):
+-        super().present_with_time(int(datetime.now().timestamp()))
++        super().present()
+         self.set_default_size(
+             self.confman.nconf.window_width,
+             self.confman.nconf.window_height
