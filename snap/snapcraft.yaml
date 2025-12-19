@@ -9,6 +9,11 @@ layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/webkitgtk-6.0:
     bind: $SNAP/webkitgtk-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/webkitgtk-6.0
 
+platforms:
+  amd64:
+  arm64:
+  armhf:
+
 parts:
   python-deps:
     source: .
