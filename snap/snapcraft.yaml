@@ -18,33 +18,33 @@ parts:
       - libxslt1-dev
       - libjpeg-turbo8-dev
     python-packages:
-      - attrs==22.2.0
-      - beautifulsoup4==4.12.0
-      - certifi==2022.12.7
-      - chardet==5.1.0
-      - charset-normalizer==3.1.0
-      - colorama==0.4.6
-      - cssselect==1.2.0
-      - exceptiongroup==1.1.1
-      - humanize==4.6.0
-      - idna==3.4
-      - iniconfig==2.0.0
-      - lxml[html_clean]==6.0.2
-      - packaging==23.0
-      - Pillow==12.0.0
-      - pluggy==1.0.0
-      - Pygments==2.14.0
-      - pytest==7.2.2
-      - python-dateutil==2.8.2
-      - python-magic==0.4.27
-      - pytz==2022.7.1
-      - readability_lxml==0.8.1
-      - requests==2.28.2
-      - six==1.16.0
-      - soupsieve==2.4
-      - tomli==2.0.1
-      - urllib3==1.26.15
-      - pybind11==2.10.3
+      - attrs
+      - beautifulsoup4
+      - certifi
+      - chardet
+      - charset-normalizer
+      - colorama
+      - cssselect
+      - exceptiongroup
+      - humanize
+      - idna
+      - iniconfig
+      - lxml[html_clean]
+      - packaging
+      - Pillow
+      - pluggy
+      - Pygments
+      - pytest
+      - python-dateutil
+      - python-magic
+      - pytz
+      - readability_lxml
+      - requests
+      - six
+      - soupsieve
+      - tomli
+      - urllib3
+      - pybind11
     prime:
       - -usr/bin/activate
       - -usr/bin/activate.csh
